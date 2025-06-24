@@ -12,14 +12,18 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 for pin in (PIN_BLUE, PIN_GREEN, PIN_RED):
     GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, GPIO.HIGH)  # HIGH = off (common-cathode)
+    GPIO.output(pin, GPIO.LOW)      # LOW = off  <<<< changed
+    #GPIO.output(pin, GPIO.HIGH)  # HIGH =ls on rasberry py baord vs gpio /or gpio vs 3v and 5v under thewhat is aoff (common-cathode)
 
-# ───── Helper Functions ─────
 def set_color(r: bool, g: bool, b: bool):
-    """Drive each channel LOW to light, HIGH to turn off."""
-    GPIO.output(PIN_RED,   GPIO.LOW  if r else GPIO.HIGH)
-    GPIO.output(PIN_GREEN, GPIO.LOW  if g else GPIO.HIGH)
-    GPIO.output(PIN_BLUE,  GPIO.LOW  if b else GPIO.HIGH)
+    """Drive each channel HIGH to light, LOW to turn off."""
+    GPIO.output(PIN_RED,   GPIO.HIGH if r else GPIO.LOW)   # <<<< swapped
+    GPIO.output(PIN_GREEN, GPIO.HIGH if g else GPIO.LOW)
+    GPIO.output(PIN_BLUE,  GPIO.HIGH if b else GPIO.LOW)
+#    """Drive each channel LOW to light, HIGH to turn off."""
+#    GPIO.output(PIN_RED,   GPIO.LOW  if r else GPIO.HIGH)
+#    GPIO.output(PIN_GREEN, GPIO.LOW  if g else GPIO.HIGH)
+#    GPIO.output(PIN_BLUE,  GPIO.LOW  if b else GPIO.HIGH)
 
 def fade_color(pin, duration=1.0, steps=50):
     """Simple software PWM fade on single pin."""
@@ -31,7 +35,6 @@ def fade_color(pin, duration=1.0, steps=50):
         GPIO.output(pin, GPIO.HIGH)
         time.sleep((1 - duty) * duration / steps)
 
-# ───── Main Demo ─────
 try:
     while True:
         # Static colors
@@ -42,13 +45,13 @@ try:
                            ("Off",   (0,0,0))]:
             print(f"Setting {name}")
             set_color(*vals)
-            time.sleep(1.0)
+            time.sleep(4.0)
 
         # Fade Red → Green → Blue
         print("Fading each channel…")
         for pin in (PIN_RED, PIN_GREEN, PIN_BLUE):
             fade_color(pin, duration=1.5)
-            time.sleep(0.5)
+            time.sleep(1.5)
 
 except KeyboardInterrupt:
     pass
