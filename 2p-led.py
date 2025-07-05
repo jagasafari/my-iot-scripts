@@ -1,7 +1,6 @@
 import RPi.GPIO as GPIO
 import time
 
-# Pin definition
 PIN_LED = 18
 
 # Setup
