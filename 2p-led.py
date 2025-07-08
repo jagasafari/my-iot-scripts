@@ -3,7 +3,6 @@ import time
 
 PIN_LED = 18
 
-# Setup
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(PIN_LED, GPIO.OUT)
