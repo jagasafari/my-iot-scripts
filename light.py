@@ -23,13 +23,12 @@ def main():
     
     while True:
       # Read sensor state
-      # Note: Some sensors are active LOW, others HIGH
-      # You may need to adjust this logic
+      # Sensor is active HIGH (1=dark, 0=light)
       current_state = GPIO.input(LIGHT_SENSOR_PIN)
       
       if current_state != previous_state:
-        if current_state == 0:
-          # Dark detected (assuming active LOW)
+        if current_state == 1:  # Changed from 0 to 1
+          # Dark detected (active HIGH)
           print("DARK detected! 🌙")
         else:
           print("LIGHT detected! ☀️")
